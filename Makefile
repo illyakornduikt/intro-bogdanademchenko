@@ -1,2 +1,5 @@
 run:
-	javac entity/*.java main/*.java && java main.Main
+	clear && \
+	cd src && \
+	javac main/*.java entity/*.java object/*.java tile/*.java && \
+	java main.Main
