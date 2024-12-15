@@ -20,37 +20,37 @@ public class TileManager {
         tile = new Tile[6];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
-        loadMap("maps/map01.txt");
+        loadMap("/res/maps/world01.txt");
     }
     public void getTileImage(){
         try {
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(this.getClass().getResourceAsStream("/res/tiles/grass.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/grass.png"));
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(this.getClass().getResourceAsStream("/res/tiles/wall.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/wall.png"));
             tile[1].collision = true;
 
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(this.getClass().getResourceAsStream("/res/tiles/water.png"));
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/water.png"));
             tile[2].collision = true;
 
             tile[3] = new Tile();
-            tile[3].image = ImageIO.read(this.getClass().getResourceAsStream("/res/tiles/earth.png"));
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/earth.png"));
 
             tile[4] = new Tile();
-            tile[4].image = ImageIO.read(this.getClass().getResourceAsStream("/res/tiles/tree.png"));
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tree.png"));
             tile[4].collision = true;
 
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(this.getClass().getResourceAsStream("/res/tiles/sand.png"));
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/sand.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
     }
     public void loadMap(String filePath){
         try {
-            InputStream is = this.getClass().getResourceAsStream(filePath);
+            InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
@@ -81,7 +81,7 @@ public class TileManager {
         int worldCol = 0;
         int worldRow = 0;
 
-        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldCol){
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow){
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -89,8 +89,11 @@ public class TileManager {
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
+            if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && 
+               worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+               worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+               worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+
                 g2.drawImage(tile[tileNum].image, screenX, screenY,gp.tileSize,gp.tileSize, null);
             }
             worldCol++;
